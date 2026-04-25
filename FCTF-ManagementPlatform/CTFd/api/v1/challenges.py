@@ -1361,7 +1361,7 @@ class ChallengeVersionDetail(Resource):
 
 @challenges_namespace.route("/<challenge_id>/versions/<version_id>/rollback")
 class ChallengeVersionRollback(Resource):
-    @admins_only
+    @admin_or_challenge_writer_only_or_jury
     def post(self, challenge_id, version_id):
         """Rollback a challenge to a specific version"""
         challenge = Challenges.query.filter_by(id=challenge_id).first_or_404()
@@ -1407,6 +1407,16 @@ class ChallengeVersionRollback(Resource):
             challenge.last_update = datetime.utcnow()
 
             db.session.commit()
+
+            log_audit(
+                action="challenge_rollback",
+                data={
+                    "challenge_id": challenge.id,
+                    "challenge_name": challenge.name,
+                    "rolled_back_to_version": version.version_number,
+                    "image_tag": version.image_tag,
+                }
+            )
 
             return {
                 "success": True,
