@@ -162,6 +162,8 @@ class ConfigList(Resource):
         clear_standings()
         clear_challenges()
 
+        # MISSING-GAP-UC17-01: SRS POST-02 yêu cầu "system displays newly updated information"
+        # nhưng response chỉ trả {"success": True} — không kèm dữ liệu config mới
         return {"success": True}
 
 
