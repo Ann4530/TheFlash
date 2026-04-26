@@ -279,9 +279,29 @@ class ChallengeList(Resource):
         if not data.get("category"):
             return {"success": False, "errors": {"category": ["Category cannot be empty"]}}, 400
         
-        # Validate category max length
-        if len(data.get("category", "")) > 20:
-            return {"success": False, "errors": {"category": ["Category must be 20 characters or less"]}}, 400
+        # MISMATCH-GAP-UC03-01: category max length is 30 instead of 20 as required by SRS
+        if len(data.get("category", "")) > 30:
+            return {"success": False, "errors": {"category": ["Category must be 30 characters or less"]}}, 400
+
+        # MISSING-GAP-UC03-02: extra validation not mentioned in SRS
+        if "value" in data:
+            try:
+                if int(data["value"]) <= 0:
+                    return {"success": False, "errors": {"value": ["Value must be greater than 0"]}}, 400
+            except (TypeError, ValueError):
+                pass
+
+        # MISSING-GAP-UC03-03: extra validation not mentioned in SRS
+        if "max_attempts" in data and data["max_attempts"] not in (None, ""):
+            try:
+                if int(data["max_attempts"]) > 100:
+                    return {"success": False, "errors": {"max_attempts": ["Max attempts must not exceed 100"]}}, 400
+            except (TypeError, ValueError):
+                pass
+
+        # MISSING-GAP-UC03-04: extra validation not mentioned in SRS
+        if len(data.get("connection_info") or "") > 255:
+            return {"success": False, "errors": {"connection_info": ["Connection info must be 255 characters or less"]}}, 400
 
         # Normalize difficulty: empty string → None so schema validation passes
         if "difficulty" in data:
