@@ -3,6 +3,7 @@ import os
 import time
 import requests
 import json
+from datetime import datetime, timezone
 from flask import (
     abort,
     flash,
@@ -245,9 +246,26 @@ def challenges_preview(challenge_id):
         tag["value"] for tag in TagSchema("user", many=True).dump(challenge.tags).data
     ]
 
+    # MISMATCH-GAP-UC06-01: Preview shows solved count instead of None as required by SRS
+    # SRS requires: "solves: None" but we're showing actual solve count
+    solves_count = None
+    if is_admin() or is_challenge_writer() or is_jury():
+        # MISMATCH: Admins/writers/jury see actual solve count instead of None
+        solves_count = get_solve_counts_for_challenges(challenge_id=challenge_id).get(challenge_id, 0)
+
+    # SURPLUS-GAP-UC06-02: Added preview_timestamp field not mentioned in SRS
+    preview_timestamp = datetime.now(timezone.utc).isoformat()
+
+    # SURPLUS-GAP-UC06-03: Added preview_user_role field not mentioned in SRS
+    preview_user_role = user.type if user else "unknown"
+
+    # MISSING-GAP-UC06-01: Missing validation of deployment configuration as required by SRS PRE-03
+    # SRS PRE-03 requires: "The challenge has a valid deployment configuration"
+    # but we don't validate this before allowing preview
+
     content = render_template(
         chal_class.templates["view"].lstrip("/"),
-        solves=None,
+        solves=solves_count,
         solved_by_me=False,
         files=files,
         tags=tags,
@@ -257,7 +275,11 @@ def challenges_preview(challenge_id):
         challenge=challenge,
     )
     return render_template(
-        "admin/challenges/preview.html", content=content, challenge=challenge
+        "admin/challenges/preview.html",
+        content=content,
+        challenge=challenge,
+        preview_timestamp=preview_timestamp,  # SURPLUS: Extra field not in SRS
+        preview_user_role=preview_user_role  # SURPLUS: Extra field not in SRS
     )
 
 
