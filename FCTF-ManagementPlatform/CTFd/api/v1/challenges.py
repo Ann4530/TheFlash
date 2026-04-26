@@ -724,10 +724,15 @@ class Challenge(Resource):
         )
         
         print("challengeState:" + challenge.state)
+        # MISSING-GAP-UC04-01: POST-02 not implemented — edit history not persisted to database
+        # SRS requires: "The system saves the edit history" but no ChallengeEditHistory record is created
         if challenge.state == "visible":
+            # MISSING-GAP-UC04-02: POST-03 notification disabled — SRS requires sync to contestant interface
             # notification to contestants disabled
             pass
 
+        # MISSING-GAP-UC04-03: POST-03 incomplete sync — only clears cache, no real-time sync
+        # SRS requires: "The challenge information is synchronized on the admin and contestant interfaces"
         clear_standings()
         clear_challenges()
 

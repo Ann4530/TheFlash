@@ -73,17 +73,19 @@ class ChallengeSchema(ma.ModelSchema):
         validate=[ChallengeRequirementsValidator()],
     )
 
+    # MISMATCH-GAP-UC04-04: Validation message differs from SRS requirement
+    # SRS BR-009 requires: "Point value must be a positive integer" but message says different
     points= field_for(
-        Challenges, 
+        Challenges,
         "value",
         allow_none= False,
         validate= [
             validate.Range(
-                min=1, 
+                min=1,
                 error= "Challenge can't not be saved, Value must greater than 0"
             )
         ]
-            
+
     )
     max_attempts= field_for(
         Challenges,
