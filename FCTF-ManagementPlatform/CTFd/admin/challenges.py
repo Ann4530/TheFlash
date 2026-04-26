@@ -31,6 +31,7 @@ from CTFd.utils.decorators import (
 from CTFd.utils.dates import ctftime
 from CTFd.utils.security.signing import serialize
 from CTFd.utils.user import get_current_team, get_current_user, is_admin,is_jury
+from CTFd.utils.challenges import get_solve_counts_for_challenges
 from CTFd.utils.uploads import upload_file
 from CTFd.constants.envvars import DEPLOYMENT_SERVICE_API, PRIVATE_KEY
 from CTFd.plugins import bypass_csrf_protection
