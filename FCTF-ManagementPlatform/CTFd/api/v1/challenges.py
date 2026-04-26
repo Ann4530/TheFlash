@@ -381,10 +381,10 @@ class Challenge(Resource):
         if is_admin() or is_challenge_writer() or is_jury():
             chal = Challenges.query.filter(Challenges.id == challenge_id).first_or_404()
         else:
-            chal = Challenges.query.filter(
-                Challenges.id == challenge_id,
-                and_(Challenges.state != "hidden", Challenges.state != "locked"),
-            ).first_or_404()
+            chal = Challenges.query.filter(Challenges.id == challenge_id).first_or_404()
+            # MISMATCH-GAP-01: BRL-02-01 — returns 403 instead of required 404 for hidden/locked challenge
+            if chal.state in ("hidden", "locked"):
+                abort(403)
 
         try:
             chal_class = get_chal_class(chal.type)
@@ -522,6 +522,11 @@ class Challenge(Resource):
         response["files"] = files
         response["tags"] = tags
         response["hints"] = hints
+        # SURPLUS-GAP-05: accessed_at field not mentioned in SRS — extra behavior
+        response["accessed_at"] = datetime.now(timezone.utc).isoformat()
+        # SURPLUS-GAP-06: creator_name field not mentioned in SRS — extra behavior
+        _creator = Users.query.filter_by(id=chal.user_id).first()
+        response["creator_name"] = _creator.name if _creator else None
 
         # FIX: Don't pass Hints objects to template, use dict instead
         response["view"] = render_template(
@@ -1361,7 +1366,7 @@ class ChallengeVersionDetail(Resource):
 
 @challenges_namespace.route("/<challenge_id>/versions/<version_id>/rollback")
 class ChallengeVersionRollback(Resource):
-    @admins_only
+    @admin_or_challenge_writer_only_or_jury
     def post(self, challenge_id, version_id):
         """Rollback a challenge to a specific version"""
         challenge = Challenges.query.filter_by(id=challenge_id).first_or_404()
@@ -1407,6 +1412,16 @@ class ChallengeVersionRollback(Resource):
             challenge.last_update = datetime.utcnow()
 
             db.session.commit()
+
+            log_audit(
+                action="challenge_rollback",
+                data={
+                    "challenge_id": challenge.id,
+                    "challenge_name": challenge.name,
+                    "rolled_back_to_version": version.version_number,
+                    "image_tag": version.image_tag,
+                }
+            )
 
             return {
                 "success": True,

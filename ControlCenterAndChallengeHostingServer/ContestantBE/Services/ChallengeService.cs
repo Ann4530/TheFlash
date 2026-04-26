@@ -115,7 +115,7 @@ public class ChallengeService : IChallengeService
         {
             return new BaseResponseDTO<ChallengeByIdDTO>
             {
-                HttpStatusCode = HttpStatusCode.NotFound,
+                HttpStatusCode = HttpStatusCode.Forbidden,
                 Message = "Challenge now is not available"
             };
         }
@@ -199,7 +199,7 @@ public class ChallengeService : IChallengeService
             category = challenge.Category,
             time_limit = challenge.TimeLimit,
             require_deploy = challenge.RequireDeploy,
-            connection_protocol = string.IsNullOrWhiteSpace(challenge.ConnectionProtocol) ? "http" : challenge.ConnectionProtocol,
+            connection_protocol = string.IsNullOrWhiteSpace(challenge.ConnectionProtocol) ? "tcp" : challenge.ConnectionProtocol,
             type = challenge.Type,
             next_id = challenge.NextId,
             next_name = nextName,
@@ -208,7 +208,7 @@ public class ChallengeService : IChallengeService
             is_captain = user.Id == user.Team.CaptainId,
             captain_only_start = captainOnlyStart,
             captain_only_submit = captainOnlySubmit,
-            difficulty = difficultyVisible ? challenge.Difficulty : null,
+            difficulty = challenge.Difficulty,
             shared_instance = challenge.SharedInstant
         };
         int teamId = user.TeamId ?? 0;

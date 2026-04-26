@@ -32,9 +32,9 @@ var tcpPendingAuth int64
 func StartTCP(ctx context.Context, cfg config.Config, limiters *limiter.Set) net.Listener {
 	log.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime | log.Lmicroseconds))
 
-	copyBufBytes := 32 * 1024
-	if cfg.TCPCopyBufBytes > 0 {
-		copyBufBytes = cfg.TCPCopyBufBytes
+	copyBufBytes := cfg.TCPCopyBufBytes
+	if copyBufBytes <= 0 {
+		copyBufBytes = 32 * 1024
 	}
 	// Memory pool for copy buffers reduces GC pressure under load.
 	copyBufPool := &sync.Pool{

@@ -1,0 +1,29 @@
+STT,Use Case,Gap Categories,Expected Gap,Actual Gap,Token (input / output),Recall,Precision,F1 Score,Latency (s),Security,Stability,Cost (USD),Expected Output,Actual Output
+2,UC-06: Homepage City & Feedback Data (fix: match UC specs BRL-06-02/BRL-06-03),Missing,"5 gaps
+- MATCH-01: BE city query - top 6 thanh pho theo so xe (BRL-06-02)
+- MATCH-02: BE feedback query - top 4 feedback 5 sao (BRL-06-03)
+- MISMATCH-01: FE luong SRS tuyen tinh vs code tach 2 endpoint rieng biet
+- MISSING-01: Guest FE homepage navigation (buoc 1 trong SRS)
+- SURPLUS-01: tach getHomepageCityData + getHomepageFeedbackData thanh 2 endpoint doc lap","4 match (BE: auth check + city DB query + city response + feedback DB query); 4 missing (Guest nav + FE city render + FE feedback render + full page render); 0 mismatch - bo sot hoan toan mismatch luong SRS vs 2 endpoint; 1 surplus phat hien dung (tach 2 endpoint). AI dem du match (4 thay vi 2).","25,888 / 9,009",0.667 (67%),0.400 (40%),0.53,110.84,N/A,N/A,$0.29,"Missing: 1
+Mismatch: 1
+Surplus: 1","Missing: 4
+Surplus: 1"
+3,UC-06: Homepage City & Feedback Data - Run 2 (12-step),Missing,"5 gaps
+- MATCH-01: BE city query - top 6 thanh pho theo so xe (BRL-06-02)
+- MATCH-02: BE feedback query - top 4 feedback 5 sao (BRL-06-03)
+- MISMATCH-01: FE luong SRS tuyen tinh vs code tach 2 endpoint rieng biet
+- MISSING-01: Guest FE homepage navigation (buoc 1 trong SRS)
+- SURPLUS-01: tach getHomepageCityData + getHomepageFeedbackData thanh 2 endpoint doc lap","6 match (auth check + DB query + response cho ca city va feedback - 3 BE steps moi luong); 6 missing (Guest nav + mount city component + FE city render + mount feedback component + FE feedback render + full page render); 0 mismatch - bo sot hoan toan; 0 surplus - bo sot hoan toan. AI phat hien dung FE missing nhung dem du match (6 thay vi 2) va bo sot ca mismatch lan surplus.",N/A,0.333 (33%),0.167 (17%),0.22,N/A,N/A,N/A,N/A,"Missing: 1
+Mismatch: 1
+Surplus: 1","Missing: 6"
+4,UC-02: uc02,Mixed,"6 gaps
+- MISMATCH-01: BRL-02-01 - hidden challenge tra 403 thay 404
+- MISMATCH-02: BRL-02-03 - connection_protocol empty default https thay http
+- MISSING-01: BRL-02-02 - difficulty khong check challenge_difficulty_visibility config
+- MISSING-02: role-based filtering cho deploy fields thieu
+- SURPLUS-01: accessed_at timestamp field khong co trong SRS
+- SURPLUS-02: creator_name field khong co trong SRS","(1) Phat hien dung 2/2 mismatch inject (BRL-02-01: 403 thay 404; BRL-02-03: connection_protocol); (2) Phat hien dung 2/2 surplus inject (accessed_at; creator_name); (3) Phat hien dung 1/2 missing - bo sot role-based filtering cho deploy fields; (4) 4 FP mismatch them (FE impl khong tim thay; serialize khong loc role; FE render; auth check); (5) 1 FP surplus them (prerequisites check).","39,630",0.833 (83%),0.500 (50%),0.63,132.83,N/A,N/A,$0.37,"Mismatch: 2
+Missing: 2
+Surplus: 2","Mismatch: 6
+Missing: 1
+Surplus: 3"
