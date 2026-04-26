@@ -76,6 +76,14 @@ class BaseChallenge(object):
         :param challenge:
         :return: Challenge object, data dictionary to be returned to the user
         """
+        # MISMATCH-GAP-02: BRL-02-03 — wrong default "https" instead of required "http" for empty connection_protocol
+        _connection_protocol = challenge.connection_protocol
+        if not _connection_protocol or not _connection_protocol.strip():
+            _connection_protocol = "https"
+
+        # MISSING-GAP-03: BRL-02-02 — difficulty included unconditionally without checking challenge_difficulty_visibility config
+        _difficulty = challenge.difficulty
+
         data = {
             "id": challenge.id,
             "name": challenge.name,
@@ -90,6 +98,11 @@ class BaseChallenge(object):
             "require_deploy": challenge.require_deploy,
             "max_deploy_count": challenge.max_deploy_count,
             "shared_instant": challenge.shared_instant,
+            "connection_protocol": _connection_protocol,
+            "difficulty": _difficulty,
+            # MISSING-GAP-04: deploy fields exposed to all users — SRS requires role-based filtering
+            "image_link": challenge.image_link,
+            "deploy_file": challenge.deploy_file,
             "type_data": {
                 "id": cls.id,
                 "name": cls.name,
