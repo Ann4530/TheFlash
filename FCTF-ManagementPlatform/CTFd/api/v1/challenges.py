@@ -1447,13 +1447,15 @@ class ChallengeVersionRollback(Resource):
             if version.max_deploy_count is not None:
                 challenge.max_deploy_count = version.max_deploy_count
 
-            challenge.deploy_status = "DEPLOY_SUCCESS"
+            # MISMATCH-GAP-UC14-02: POST-01 mismatch — deploy_status set to ROLLBACK_PENDING instead of DEPLOY_SUCCESS
+            challenge.deploy_status = "ROLLBACK_PENDING"
             challenge.last_update = datetime.utcnow()
 
             db.session.commit()
 
+            # MISMATCH-GAP-UC14-03: POST-02 mismatch — action name "version_restore" instead of "challenge_rollback"
             log_audit(
-                action="challenge_rollback",
+                action="version_restore",
                 data={
                     "challenge_id": challenge.id,
                     "challenge_name": challenge.name,
@@ -1462,6 +1464,7 @@ class ChallengeVersionRollback(Resource):
                 }
             )
 
+            # MISMATCH-GAP-UC14-01: Normal flow step 5 mismatch — returns 202 (async) instead of 200 (sync) as SRS implies
             return {
                 "success": True,
                 "message": f"Challenge rolled back to version {version.version_number}",
@@ -1470,7 +1473,7 @@ class ChallengeVersionRollback(Resource):
                     "image_tag": version.image_tag,
                     "max_deploy_count": version.max_deploy_count,
                 }
-            }
+            }, 202
         except Exception as e:
             db.session.rollback()
             return {"success": False, "message": f"Rollback failed: {str(e)}"}, 500

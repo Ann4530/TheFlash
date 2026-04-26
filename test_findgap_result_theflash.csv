@@ -85,3 +85,17 @@ Surplus: 3","total: {
   duration_s: 125.32
   cost_usd: 0.3123
 }"
+9,UC-17: Configure Visibility,Mixed,"6 gaps
+- MATCH-01: @admins_only decorator enforce PRE-01 (admin only)
+- MISMATCH-01: challenges_visible() ADMINS tra authed() thay vi is_admin()
+- MISMATCH-02: scores_visible() HIDDEN tra is_admin() thay vi False
+- MISMATCH-03: accounts_visible() PUBLIC tra authed() thay vi True
+- MISSING-01: POST-02 response thieu config data - chi tra {success: True}
+- SURPLUS-01: record_visibility_check() tracking timestamp - SRS khong de cap","1 match TP (@admins_only - STT4); 2 mismatch (STT5: PROTECTED_CONFIG_KEYS+audit log classify nham la mismatch thay vi surplus; STT6: POST-02 thieu data classify dung nhung la MISSING duoc ga nham thanh mismatch); 4 missing FP (FE steps: form hien thi + nhap lieu + nhan Update + hien thi ket qua - khong phai gap inject); 0 surplus (bo sot hoan toan SURPLUS-01 timestamp tracking). Summary mo ta dung 3 visibility mismatch nhung khong tao row rieng trong bang.","21,418 / 9,459",60.00%,50.00%,54.55%,119.79,Khong phat hien,N/A,$0.33,"MATCH: 1, MISMATCH: 3, MISSING: 1, SURPLUS: 1","MATCH: 1, MISMATCH: 2, MISSING: 4, SURPLUS: 0","total: {
+  input_tokens: 21418
+  output_tokens: 9459
+  cache_creation_tokens: 32623
+  cache_read_tokens: 0
+  duration_s: 119.79
+  cost_usd: 0.3285
+}"
