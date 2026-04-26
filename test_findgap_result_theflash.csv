@@ -1,28 +1,28 @@
-STT,Use Case,Gap Categories,Expected Gap,Actual Gap,Token (input / output),Recall,Precision,F1 Score,Latency (s),Security,Stability,Cost (USD),Expected Output,Actual Output,Logs
+﻿STT,Use Case,Gap Categories,Expected Gap,Actual Gap,Token (input / output),Recall,Precision,F1 Score,Latency (s),Security,Stability,Cost (USD),Expected Output,Actual Output,Logs
 2,UC-06: Homepage City & Feedback Data (fix: match UC specs BRL-06-02/BRL-06-03),Missing,"5 gaps
 - MATCH-01: BE city query - top 6 thanh pho theo so xe (BRL-06-02)
 - MATCH-02: BE feedback query - top 4 feedback 5 sao (BRL-06-03)
 - MISMATCH-01: FE luong SRS tuyen tinh vs code tach 2 endpoint rieng biet
 - MISSING-01: Guest FE homepage navigation (buoc 1 trong SRS)
-- SURPLUS-01: tach getHomepageCityData + getHomepageFeedbackData thanh 2 endpoint doc lap","4 match (BE: auth check + city DB query + city response + feedback DB query); 4 missing (Guest nav + FE city render + FE feedback render + full page render); 0 mismatch - bo sot hoan toan mismatch luong SRS vs 2 endpoint; 1 surplus phat hien dung (tach 2 endpoint). AI dem du match (4 thay vi 2).","25,888 / 9,009",0.667 (67%),0.400 (40%),0.53,110.84,N/A,N/A,$0.29,"Missing: 1
+- SURPLUS-01: tach getHomepageCityData + getHomepageFeedbackData thanh 2 endpoint doc lap",4 match (BE: auth check + city DB query + city response + feedback DB query); 4 missing (Guest nav + FE city render + FE feedback render + full page render); 0 mismatch - bo sot hoan toan mismatch luong SRS vs 2 endpoint; 1 surplus phat hien dung (tach 2 endpoint). AI dem du match (4 thay vi 2).,"25,888 / 9,009",0.667 (67%),0.400 (40%),0.53,110.84,N/A,N/A,$0.29 ,"Missing: 1
 Mismatch: 1
 Surplus: 1","Missing: 4
-Surplus: 1","—"
+Surplus: 1",—
 3,UC-06: Homepage City & Feedback Data - Run 2 (12-step),Missing,"5 gaps
 - MATCH-01: BE city query - top 6 thanh pho theo so xe (BRL-06-02)
 - MATCH-02: BE feedback query - top 4 feedback 5 sao (BRL-06-03)
 - MISMATCH-01: FE luong SRS tuyen tinh vs code tach 2 endpoint rieng biet
 - MISSING-01: Guest FE homepage navigation (buoc 1 trong SRS)
-- SURPLUS-01: tach getHomepageCityData + getHomepageFeedbackData thanh 2 endpoint doc lap","6 match (auth check + DB query + response cho ca city va feedback - 3 BE steps moi luong); 6 missing (Guest nav + mount city component + FE city render + mount feedback component + FE feedback render + full page render); 0 mismatch - bo sot hoan toan; 0 surplus - bo sot hoan toan. AI phat hien dung FE missing nhung dem du match (6 thay vi 2) va bo sot ca mismatch lan surplus.",N/A,0.333 (33%),0.167 (17%),0.22,N/A,N/A,N/A,N/A,"Missing: 1
+- SURPLUS-01: tach getHomepageCityData + getHomepageFeedbackData thanh 2 endpoint doc lap",6 match (auth check + DB query + response cho ca city va feedback - 3 BE steps moi luong); 6 missing (Guest nav + mount city component + FE city render + mount feedback component + FE feedback render + full page render); 0 mismatch - bo sot hoan toan; 0 surplus - bo sot hoan toan. AI phat hien dung FE missing nhung dem du match (6 thay vi 2) va bo sot ca mismatch lan surplus.,N/A,0.333 (33%),0.167 (17%),0.22,N/A,N/A,N/A,N/A,"Missing: 1
 Mismatch: 1
-Surplus: 1","Missing: 6","—"
+Surplus: 1",Missing: 6,—
 4,UC-02: uc02,Mixed,"6 gaps
 - MISMATCH-01: BRL-02-01 - hidden challenge tra 403 thay 404
 - MISMATCH-02: BRL-02-03 - connection_protocol empty default https thay http
 - MISSING-01: BRL-02-02 - difficulty khong check challenge_difficulty_visibility config
 - MISSING-02: role-based filtering cho deploy fields thieu
 - SURPLUS-01: accessed_at timestamp field khong co trong SRS
-- SURPLUS-02: creator_name field khong co trong SRS","(1) Phat hien dung 2/2 mismatch inject (BRL-02-01: 403 thay 404; BRL-02-03: connection_protocol); (2) Phat hien dung 2/2 surplus inject (accessed_at; creator_name); (3) Phat hien dung 1/2 missing - bo sot role-based filtering cho deploy fields; (4) 4 FP mismatch them (FE impl khong tim thay; serialize khong loc role; FE render; auth check); (5) 1 FP surplus them (prerequisites check).","39,630",0.833 (83%),0.500 (50%),0.63,132.83,N/A,N/A,$0.37,"Mismatch: 2
+- SURPLUS-02: creator_name field khong co trong SRS",(1) Phat hien dung 2/2 mismatch inject (BRL-02-01: 403 thay 404; BRL-02-03: connection_protocol); (2) Phat hien dung 2/2 surplus inject (accessed_at; creator_name); (3) Phat hien dung 1/2 missing - bo sot role-based filtering cho deploy fields; (4) 4 FP mismatch them (FE impl khong tim thay; serialize khong loc role; FE render; auth check); (5) 1 FP surplus them (prerequisites check).,"39,630",0.833 (83%),0.500 (50%),0.63,132.83,N/A,N/A,$0.37 ,"Mismatch: 2
 Missing: 2
 Surplus: 2","Mismatch: 6
 Missing: 1
@@ -41,7 +41,7 @@ Surplus: 3","total: {
 - MISSING-02: max_attempts khong vuot qua 100
 - MISSING-03: connection_info toi da 255 ky tu
 - SURPLUS-01: UI chan ten challenge qua 40 ky tu
-- SURPLUS-02: UI chan file PDF qua 5MB","1 match; 2 mismatch; 11 missing; 7 surplus. Dung ve so luong co ban gap inject backend nhung bi lech phan loai: 3 gap du kien missing (value, max_attempts, connection_info) bi gan thanh surplus; bo sot nhieu buoc FE/SRS va them nhieu surplus implementation detail (audit log, normalize difficulty, auth decorator).","17,943 / 14,888",1.000 (100%),0.300 (30%),0.46,191.47,Khong phat hien,N/A,$0.40,"MATCH: 1, MISMATCH: 1, MISSING: 3, SURPLUS: 2","MATCH: 1, MISMATCH: 2, MISSING: 11, SURPLUS: 7","total: {
+- SURPLUS-02: UI chan file PDF qua 5MB","1 match; 2 mismatch; 11 missing; 7 surplus. Dung ve so luong co ban gap inject backend nhung bi lech phan loai: 3 gap du kien missing (value, max_attempts, connection_info) bi gan thanh surplus; bo sot nhieu buoc FE/SRS va them nhieu surplus implementation detail (audit log, normalize difficulty, auth decorator).","17,943 / 14,888",1.000 (100%),0.300 (30%),0.46,191.47,Khong phat hien,N/A,$0.40 ,"MATCH: 1, MISMATCH: 1, MISSING: 3, SURPLUS: 2","MATCH: 1, MISMATCH: 2, MISSING: 11, SURPLUS: 7","total: {
   input_tokens: 17943
   output_tokens: 14888
   cache_creation_tokens: 32389
@@ -54,11 +54,23 @@ Surplus: 3","total: {
 - MISSING-02: POST-03 thông báo đồng bộ bị thiếu (STT-11)
 - MISSING-03: POST-03 chỉ xóa cache không đồng bộ đầy đủ (STT-11)
 - MISMATCH-01: Thông điệp validation điểm số khác SRS BR-009 (STT-8)
-- MISMATCH-02: Trường _extra_response_field trong response (STT-14)","6 missing phát hiện (3 TP: STT-10 lịch sử, STT-11 đồng bộ thiếu + 3 FE missing FP: STT-1 trigger, STT-5 form render, STT-6 gửi request, STT-13 hiển thị success); 1 mismatch phát hiện đúng (STT-8 validation message - TP); Bỏ sót 1 mismatch: _extra_response_field (STT-14) bị phân loại surplus thay vì mismatch; 3 surplus phát hiện (STT-14 extra field, STT-15 cache clear, STT-16 serialize - 2 FP surplus ngoài spec).","26,916 / 10,907",80.00%,40.00%,53.33%,130.24,Không phát hiện,N/A,$0.36,"MATCH: 0, MISMATCH: 2, MISSING: 3, SURPLUS: 0","MATCH: 6, MISMATCH: 1, MISSING: 6, SURPLUS: 3","total: {
+- MISMATCH-02: Trường _extra_response_field trong response (STT-14)","6 missing phát hiện (3 TP: STT-10 lịch sử, STT-11 đồng bộ thiếu + 3 FE missing FP: STT-1 trigger, STT-5 form render, STT-6 gửi request, STT-13 hiển thị success); 1 mismatch phát hiện đúng (STT-8 validation message - TP); Bỏ sót 1 mismatch: _extra_response_field (STT-14) bị phân loại surplus thay vì mismatch; 3 surplus phát hiện (STT-14 extra field, STT-15 cache clear, STT-16 serialize - 2 FP surplus ngoài spec).","26,916 / 10,907",80.00%,40.00%,53.33%,130.24,Không phát hiện,N/A,$0.36 ,"MATCH: 0, MISMATCH: 2, MISSING: 3, SURPLUS: 0","MATCH: 6, MISMATCH: 1, MISSING: 6, SURPLUS: 3","total: {
   input_tokens: 26916
   output_tokens: 10907
   cache_creation_tokens: 31718
   cache_read_tokens: 0
   duration_s: 130.24
   cost_usd: 0.3633
+}"
+7,UC-06: Preview Challenge,Mixed,"4 gaps
+- MISMATCH-01: solves=actual count (admin/writer/jury) thay vì None như SRS
+- MISSING-01: Thiếu validate PRE-03 deployment config trước khi preview
+- SURPLUS-01: preview_timestamp (ISO UTC) không có trong SRS
+- SURPLUS-02: preview_user_role (user.type) không có trong SRS","5 match (auth check + challenge load + tag/file build + template render + response); 1 mismatch TP (FE hiển thị trạng thái deploying); 5 missing (contestant chọn challenge + nhấn Start + hiển thị URL success + hiển thị lỗi E1 + hiển thị lỗi E2); 2 surplus TP (HandleDeletion/CleanupGhostResources; ReconcileOrphanedCachesAsync). Lưu ý: System chạy trên UC-86 (Start Challenge) thay vì UC-06 (Preview Challenge) - nội dung hoàn toàn lệch UC.","20,811 / 11,887",100.00%,50.00%,66.67%,140.06,Không phát hiện,N/A,$0.36,"MATCH: 0, MISMATCH: 1, MISSING: 1, SURPLUS: 2","MATCH: 5, MISMATCH: 1, MISSING: 5, SURPLUS: 2","total: {
+  input_tokens: 20811
+  output_tokens: 11887
+  cache_creation_tokens: 32298
+  cache_read_tokens: 0
+  duration_s: 140.06
+  cost_usd: 0.3619
 }"

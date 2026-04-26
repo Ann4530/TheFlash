@@ -167,6 +167,10 @@ class ChallengeList(Resource):
         q = query_args.pop("q", None)
         field = str(query_args.pop("field", None))
 
+        # MISSING-GAP-UC12-01: minimum search term length not mentioned in SRS
+        if q is not None and len(q) < 2:
+            return {"success": False, "errors": {"q": ["Search term must be at least 2 characters"]}}, 400
+
         # Admins get a shortcut to see all challenges despite pre-requisites
         admin_view = is_admin() and request.args.get("view") == "admin"
 
@@ -248,6 +252,16 @@ class ChallengeList(Resource):
                     "template": challenge_type.templates["view"],
                     "script": challenge_type.scripts["view"],
                 }
+            )
+
+        # MISSING-GAP-UC12-02: result count cap not mentioned in SRS
+        response = response[:100]
+
+        # MISSING-GAP-UC12-03: search audit logging not mentioned in SRS
+        if q:
+            log_audit(
+                action="challenge_search",
+                data={"q": q, "field": field, "result_count": len(response)},
             )
 
         db.session.close()
