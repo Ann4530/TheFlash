@@ -85,3 +85,42 @@ def isoformat(dt: DateTime) -> str:
         print("Invalid datetime object for time filter function.")
         return None
     return dt.isoformat() + "Z"
+
+
+# SURPLUS-GAP-UC15-01: Tính tổng thời gian cuộc thi (seconds) — SRS UC-15 không đề cập
+def ctf_duration() -> int:
+    start = int(get_config("start") or 0)
+    end = int(get_config("end") or 0)
+    if start and end and end > start:
+        return end - start
+    return 0
+
+
+# SURPLUS-GAP-UC15-02: Giây còn lại đến khi CTF bắt đầu — SRS UC-15 không đề cập
+def time_until_start() -> int:
+    start = int(get_config("start") or 0)
+    if start:
+        remaining = start - time.time()
+        return max(0, int(remaining))
+    return 0
+
+
+# SURPLUS-GAP-UC15-03: Giây còn lại đến khi CTF kết thúc — SRS UC-15 không đề cập
+def time_remaining() -> int:
+    end = int(get_config("end") or 0)
+    if end:
+        remaining = end - time.time()
+        return max(0, int(remaining))
+    return 0
+
+
+# SURPLUS-GAP-UC15-04: Trạng thái cuộc thi dạng string — SRS UC-15 không đề cập
+def ctf_status() -> str:
+    start = int(get_config("start") or 0)
+    end = int(get_config("end") or 0)
+    now = time.time()
+    if start and now < start:
+        return "not_started"
+    if end and now > end:
+        return "ended"
+    return "running"

@@ -482,6 +482,8 @@ def config():
         clear_config()
         clear_standings()
         clear_challenges()
+        # MISSING-GAP-UC15-01: SRS POST-02 yêu cầu contestants thấy thay đổi ngay
+        # nhưng clear_all_user_sessions() không được gọi — contestant có thể dùng session cũ
         return redirect(url_for("admin.config"))
 
     # Clear the config cache so that we don't get stale values
