@@ -9,7 +9,7 @@ description: "Evaluate ket qua cua skill findgap: nhan log JSON + bang ket qua h
 
 ## Muc dich
 
-Skill nay nhan ket qua tu he thong gap-finding (log JSON + bang gap classifications), tinh cac metric danh gia (Precision, Recall, F1), va dien vao file CSV ket qua test.
+Skill nay nhan ket qua tu he thong gap-finding (log JSON + bang gap classifications), tinh cac metric danh gia (Precision, Recall, F1), dien vao file CSV ket qua test, va luu tom tat `log.total` vao cot `Logs`.
 
 ---
 
@@ -116,7 +116,7 @@ File CSV su dung cac cot sau (dung chinh xac ten cot nay):
 ```
 STT, Use Case, Gap Categories, Expected Gap, Actual Gap,
 Token (input / output), Recall, Precision, F1 Score, Latency (s),
-Security, Stability, Cost (USD), Expected Output, Actual Output
+Security, Stability, Cost (USD), Expected Output, Actual Output, Logs
 ```
 
 **Format tung cot:**
@@ -138,6 +138,7 @@ Security, Stability, Cost (USD), Expected Output, Actual Output
 | Cost (USD) | `$X.XX` — `—` neu khong co | `$0.29` |
 | Expected Output | multi-line list (xem ben duoi) | |
 | Actual Output | multi-line list (xem ben duoi) | |
+| Logs | multi-line `total` block tu JSON log; `—` neu khong co | |
 
 **Format Expected Gap** (bullet points, wrap trong dau ngoac kep trong CSV):
 ```
@@ -163,10 +164,22 @@ Missing: X
 Surplus: X"
 ```
 
+**Format Logs** (multi-line, wrap trong dau ngoac kep; chi luu `log.total`):
+```
+"total: {
+  input_tokens: X
+  output_tokens: X
+  cache_creation_tokens: X
+  cache_read_tokens: X
+  duration_s: X
+  cost_usd: X
+}"
+```
+
 Chi liet ke cac loai co xuat hien (bo qua loai = 0). Neu tat ca Match thi ghi `"Match: X"`.
 
 **Luu y CSV:** Moi field chua dau phay hoac xuat dong PHAI duoc boc trong dau ngoac kep `"..."`.
-Neu khong co du lieu (JSON log khong duoc cung cap) thi ghi `—`.
+Neu khong co du lieu (JSON log khong duoc cung cap) thi ghi `—` cho Token / Latency / Cost / Logs.
 
 ---
 
@@ -225,4 +238,30 @@ Missing: 1
 Surplus: 1"
 Actual Output:   "Missing: 4
 Surplus: 1"
+Logs:            "total: {
+  input_tokens: 28988
+  output_tokens: 10642
+  cache_creation_tokens: 31717
+  cache_read_tokens: 0
+  duration_s: 132.83
+  cost_usd: 0.3655
+}"
+```
+
+Khi them dong moi vao CSV, luon dien cot `Logs` bang block `total` neu user co cung cap JSON log.
+Neu khong co JSON log thi dien `—`.
+
+**Output row mau:**
+```
+...,"Mismatch: 1
+Missing: 1
+Surplus: 1","Missing: 4
+Surplus: 1","total: {
+  input_tokens: 28988
+  output_tokens: 10642
+  cache_creation_tokens: 31717
+  cache_read_tokens: 0
+  duration_s: 132.83
+  cost_usd: 0.3655
+}"
 ```

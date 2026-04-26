@@ -190,6 +190,11 @@ class BaseChallenge(object):
                 setattr(challenge, attr, value)
             db.session.commit()
 
+        # MISMATCH-GAP-UC04-05: Response includes extra field not in SRS
+        # SRS UC-04 Step 7: "displays a successful update notification" — no mention of 'last_updated_by' field
+        # This extra field is added to the challenge object but not documented in SRS
+        challenge._extra_response_field = "last_updated_by"  # Extra field for MISMATCH gap
+
         return challenge
 
 

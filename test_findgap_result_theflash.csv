@@ -1,4 +1,4 @@
-STT,Use Case,Gap Categories,Expected Gap,Actual Gap,Token (input / output),Recall,Precision,F1 Score,Latency (s),Security,Stability,Cost (USD),Expected Output,Actual Output
+STT,Use Case,Gap Categories,Expected Gap,Actual Gap,Token (input / output),Recall,Precision,F1 Score,Latency (s),Security,Stability,Cost (USD),Expected Output,Actual Output,Logs
 2,UC-06: Homepage City & Feedback Data (fix: match UC specs BRL-06-02/BRL-06-03),Missing,"5 gaps
 - MATCH-01: BE city query - top 6 thanh pho theo so xe (BRL-06-02)
 - MATCH-02: BE feedback query - top 4 feedback 5 sao (BRL-06-03)
@@ -7,7 +7,7 @@ STT,Use Case,Gap Categories,Expected Gap,Actual Gap,Token (input / output),Recal
 - SURPLUS-01: tach getHomepageCityData + getHomepageFeedbackData thanh 2 endpoint doc lap","4 match (BE: auth check + city DB query + city response + feedback DB query); 4 missing (Guest nav + FE city render + FE feedback render + full page render); 0 mismatch - bo sot hoan toan mismatch luong SRS vs 2 endpoint; 1 surplus phat hien dung (tach 2 endpoint). AI dem du match (4 thay vi 2).","25,888 / 9,009",0.667 (67%),0.400 (40%),0.53,110.84,N/A,N/A,$0.29,"Missing: 1
 Mismatch: 1
 Surplus: 1","Missing: 4
-Surplus: 1"
+Surplus: 1","—"
 3,UC-06: Homepage City & Feedback Data - Run 2 (12-step),Missing,"5 gaps
 - MATCH-01: BE city query - top 6 thanh pho theo so xe (BRL-06-02)
 - MATCH-02: BE feedback query - top 4 feedback 5 sao (BRL-06-03)
@@ -15,7 +15,7 @@ Surplus: 1"
 - MISSING-01: Guest FE homepage navigation (buoc 1 trong SRS)
 - SURPLUS-01: tach getHomepageCityData + getHomepageFeedbackData thanh 2 endpoint doc lap","6 match (auth check + DB query + response cho ca city va feedback - 3 BE steps moi luong); 6 missing (Guest nav + mount city component + FE city render + mount feedback component + FE feedback render + full page render); 0 mismatch - bo sot hoan toan; 0 surplus - bo sot hoan toan. AI phat hien dung FE missing nhung dem du match (6 thay vi 2) va bo sot ca mismatch lan surplus.",N/A,0.333 (33%),0.167 (17%),0.22,N/A,N/A,N/A,N/A,"Missing: 1
 Mismatch: 1
-Surplus: 1","Missing: 6"
+Surplus: 1","Missing: 6","—"
 4,UC-02: uc02,Mixed,"6 gaps
 - MISMATCH-01: BRL-02-01 - hidden challenge tra 403 thay 404
 - MISMATCH-02: BRL-02-03 - connection_protocol empty default https thay http
@@ -26,4 +26,40 @@ Surplus: 1","Missing: 6"
 Missing: 2
 Surplus: 2","Mismatch: 6
 Missing: 1
-Surplus: 3"
+Surplus: 3","total: {
+  input_tokens: 28988
+  output_tokens: 10642
+  cache_creation_tokens: 31717
+  cache_read_tokens: 0
+  duration_s: 132.83
+  cost_usd: 0.3655
+}"
+5,UC-03: uc03,Mixed,"7 gaps
+- MATCH-01: ten challenge rong sau trim bi reject
+- MISMATCH-01: category toi da 20 ky tu trong SRS nhung code cho 30
+- MISSING-01: value phai > 0
+- MISSING-02: max_attempts khong vuot qua 100
+- MISSING-03: connection_info toi da 255 ky tu
+- SURPLUS-01: UI chan ten challenge qua 40 ky tu
+- SURPLUS-02: UI chan file PDF qua 5MB","1 match; 2 mismatch; 11 missing; 7 surplus. Dung ve so luong co ban gap inject backend nhung bi lech phan loai: 3 gap du kien missing (value, max_attempts, connection_info) bi gan thanh surplus; bo sot nhieu buoc FE/SRS va them nhieu surplus implementation detail (audit log, normalize difficulty, auth decorator).","17,943 / 14,888",1.000 (100%),0.300 (30%),0.46,191.47,Khong phat hien,N/A,$0.40,"MATCH: 1, MISMATCH: 1, MISSING: 3, SURPLUS: 2","MATCH: 1, MISMATCH: 2, MISSING: 11, SURPLUS: 7","total: {
+  input_tokens: 17943
+  output_tokens: 14888
+  cache_creation_tokens: 32389
+  cache_read_tokens: 0
+  duration_s: 191.47
+  cost_usd: 0.3986
+}"
+6,UC-04: Edit Challenge,Mixed,"5 gaps
+- MISSING-01: POST-02 Edit history not persisted
+- MISSING-02: POST-03 Notification disabled
+- MISSING-03: POST-03 Incomplete sync (only cache clear)
+- MISMATCH-01: Validation message differs from SRS BR-009
+- MISMATCH-02: Extra field '_extra_response_field' in response",Pending - gaps injected awaiting gap-finding run,Pending,Pending,Pending,Pending,Pending,Pending,Pending,Pending,Pending,"Missing: 3
+Mismatch: 2","—"
+6,UC-04: Edit Challenge,Mixed,"5 gaps
+- MISSING-01: POST-02 Edit history not persisted
+- MISSING-02: POST-03 Notification disabled
+- MISSING-03: POST-03 Incomplete sync (only cache clear)
+- MISMATCH-01: Validation message differs from SRS BR-009
+- MISMATCH-02: Extra field '_extra_response_field' in response",Pending - gaps injected awaiting gap-finding run,Pending,Pending,Pending,Pending,Pending,Pending,Pending,Pending,Pending,"Missing: 3
+Mismatch: 2","—"
