@@ -50,16 +50,15 @@ Surplus: 3","total: {
   cost_usd: 0.3986
 }"
 6,UC-04: Edit Challenge,Mixed,"5 gaps
-- MISSING-01: POST-02 Edit history not persisted
-- MISSING-02: POST-03 Notification disabled
-- MISSING-03: POST-03 Incomplete sync (only cache clear)
-- MISMATCH-01: Validation message differs from SRS BR-009
-- MISMATCH-02: Extra field '_extra_response_field' in response",Pending - gaps injected awaiting gap-finding run,Pending,Pending,Pending,Pending,Pending,Pending,Pending,Pending,Pending,"Missing: 3
-Mismatch: 2","—"
-6,UC-04: Edit Challenge,Mixed,"5 gaps
-- MISSING-01: POST-02 Edit history not persisted
-- MISSING-02: POST-03 Notification disabled
-- MISSING-03: POST-03 Incomplete sync (only cache clear)
-- MISMATCH-01: Validation message differs from SRS BR-009
-- MISMATCH-02: Extra field '_extra_response_field' in response",Pending - gaps injected awaiting gap-finding run,Pending,Pending,Pending,Pending,Pending,Pending,Pending,Pending,Pending,"Missing: 3
-Mismatch: 2","—"
+- MISSING-01: POST-02 lịch sử chỉnh sửa không được lưu (STT-10)
+- MISSING-02: POST-03 thông báo đồng bộ bị thiếu (STT-11)
+- MISSING-03: POST-03 chỉ xóa cache không đồng bộ đầy đủ (STT-11)
+- MISMATCH-01: Thông điệp validation điểm số khác SRS BR-009 (STT-8)
+- MISMATCH-02: Trường _extra_response_field trong response (STT-14)","6 missing phát hiện (3 TP: STT-10 lịch sử, STT-11 đồng bộ thiếu + 3 FE missing FP: STT-1 trigger, STT-5 form render, STT-6 gửi request, STT-13 hiển thị success); 1 mismatch phát hiện đúng (STT-8 validation message - TP); Bỏ sót 1 mismatch: _extra_response_field (STT-14) bị phân loại surplus thay vì mismatch; 3 surplus phát hiện (STT-14 extra field, STT-15 cache clear, STT-16 serialize - 2 FP surplus ngoài spec).","26,916 / 10,907",80.00%,40.00%,53.33%,130.24,Không phát hiện,N/A,$0.36,"MATCH: 0, MISMATCH: 2, MISSING: 3, SURPLUS: 0","MATCH: 6, MISMATCH: 1, MISSING: 6, SURPLUS: 3","total: {
+  input_tokens: 26916
+  output_tokens: 10907
+  cache_creation_tokens: 31718
+  cache_read_tokens: 0
+  duration_s: 130.24
+  cost_usd: 0.3633
+}"
