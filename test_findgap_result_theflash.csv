@@ -66,11 +66,22 @@ Surplus: 3","total: {
 - MISMATCH-01: solves=actual count (admin/writer/jury) thay vì None như SRS
 - MISSING-01: Thiếu validate PRE-03 deployment config trước khi preview
 - SURPLUS-01: preview_timestamp (ISO UTC) không có trong SRS
-- SURPLUS-02: preview_user_role (user.type) không có trong SRS","5 match (auth check + challenge load + tag/file build + template render + response); 1 mismatch TP (FE hiển thị trạng thái deploying); 5 missing (contestant chọn challenge + nhấn Start + hiển thị URL success + hiển thị lỗi E1 + hiển thị lỗi E2); 2 surplus TP (HandleDeletion/CleanupGhostResources; ReconcileOrphanedCachesAsync). Lưu ý: System chạy trên UC-86 (Start Challenge) thay vì UC-06 (Preview Challenge) - nội dung hoàn toàn lệch UC.","20,811 / 11,887",100.00%,50.00%,66.67%,140.06,Không phát hiện,N/A,$0.36,"MATCH: 0, MISMATCH: 1, MISSING: 1, SURPLUS: 2","MATCH: 5, MISMATCH: 1, MISSING: 5, SURPLUS: 2","total: {
+- SURPLUS-02: preview_user_role (user.type) không có trong SRS",5 match (auth check + challenge load + tag/file build + template render + response); 1 mismatch TP (FE hiển thị trạng thái deploying); 5 missing (contestant chọn challenge + nhấn Start + hiển thị URL success + hiển thị lỗi E1 + hiển thị lỗi E2); 2 surplus TP (HandleDeletion/CleanupGhostResources; ReconcileOrphanedCachesAsync). Lưu ý: System chạy trên UC-86 (Start Challenge) thay vì UC-06 (Preview Challenge) - nội dung hoàn toàn lệch UC.,"20,811 / 11,887",100.00%,50.00%,66.67%,140.06,Không phát hiện,N/A,$0.36 ,"MATCH: 0, MISMATCH: 1, MISSING: 1, SURPLUS: 2","MATCH: 5, MISMATCH: 1, MISSING: 5, SURPLUS: 2","total: {
   input_tokens: 20811
   output_tokens: 11887
   cache_creation_tokens: 32298
   cache_read_tokens: 0
   duration_s: 140.06
   cost_usd: 0.3619
+}"
+8,UC12 : Search Challenge,Mixed,"3 missing:
+- MISSING-01: search term min length validation (q < 2 ký tự)
+- MISSING-02: result count cap (tối đa 100 kết quả)
+- MISSING-03: audit log khi có search query",4 missing TP về số đếm nhưng nội dung sai (FE steps: login + fill form + click search + display results - không phải gap inject); MISSING-01 bị classify mismatch (row 5: q validation); MISSING-03 bị classify surplus (row 7: audit log); MISSING-02 không xuất hiện riêng biệt. 2 mismatch FP (auth 401 vs 403; q len check). 3 surplus FP (audit log; admin_view; db.session.close). 0/3 gap inject được phân loại đúng loại.,"19,293 / 9,022",100.00%,33.33%,50.00%,125.32,Không phát hiện,N/A,$0.31 ,"MATCH: 0, MISMATCH: 0, MISSING: 3, SURPLUS: 0","MATCH: 0, MISMATCH: 2, MISSING: 4, SURPLUS: 3","total: {
+  input_tokens: 19293
+  output_tokens: 9022
+  cache_creation_tokens: 31759
+  cache_read_tokens: 0
+  duration_s: 125.32
+  cost_usd: 0.3123
 }"
