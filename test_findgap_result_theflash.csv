@@ -85,6 +85,19 @@ Surplus: 3","total: {
   duration_s: 125.32
   cost_usd: 0.3123
 }"
+10,UC-14: Rollback Version (system chạy nhầm UC-17),Mixed,"5 gaps:
+- MATCH-01: db.session.commit() khớp SRS Normal flow step 4
+- MATCH-02: log_audit() khớp SRS POST-02
+- MISMATCH-01: HTTP 202 thay vì 200 (async vs sync)
+- MISMATCH-02: deploy_status = ROLLBACK_PENDING thay vì DEPLOY_SUCCESS
+- MISMATCH-03: log action = version_restore thay vì challenge_rollback","System chạy nhầm UC-17 (Configure visibility) thay vì UC-14; 2 match TP về số đếm (auth + DB save); 2 mismatch TP về số (response thiếu data config + visibility logic sai) nhưng nội dung khác hoàn toàn với gap inject; 4 missing FP (3 FE steps + display result); 2 surplus FP (record_visibility_check + clear cache). 0/3 mismatch inject UC-14 được phát hiện do wrong UC.","18,746 / 7,470",66.67%,25.00%,36.36%,87.45,Không phát hiện,N/A,$0.17,"MATCH: 2, MISMATCH: 3, MISSING: 0, SURPLUS: 0","MATCH: 2, MISMATCH: 2, MISSING: 4, SURPLUS: 2","total: {
+  input_tokens: 18746
+  output_tokens: 7470
+  cache_creation_tokens: 0
+  cache_read_tokens: 0
+  duration_s: 87.45
+  cost_usd: 0.1683
+}"
 9,UC-17: Configure Visibility,Mixed,"6 gaps
 - MATCH-01: @admins_only decorator enforce PRE-01 (admin only)
 - MISMATCH-01: challenges_visible() ADMINS tra authed() thay vi is_admin()
