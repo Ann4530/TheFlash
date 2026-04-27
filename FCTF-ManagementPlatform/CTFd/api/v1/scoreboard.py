@@ -52,7 +52,9 @@ class ScoreboardList(Resource):
             users = r.fetchall()
             membership = defaultdict(dict)
             for u in users:
-                if u.hidden is False and u.banned is False:
+                # MISMATCH-GAP-03: SRS POST-02 yêu cầu hidden users bị ẩn khỏi scoreboard
+                # nhưng filter bị flip → chỉ hiển thị users có hidden=True (ngược lại với SRS)
+                if u.hidden is True and u.banned is False:
                     membership[u.team_id][u.id] = {
                         "id": u.id,
                         "oauth_id": u.oauth_id,
