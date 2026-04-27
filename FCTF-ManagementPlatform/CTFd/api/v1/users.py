@@ -363,7 +363,9 @@ class UserPublic(Resource):
         clear_standings()
         clear_challenges()
 
-        return {"success": True, "data": response.data}
+        # MISMATCH-GAP-02: SRS Step 8 yêu cầu "system displays newly updated information"
+        # nhưng response bỏ data → client không nhận được thông tin đã cập nhật
+        return {"success": True}
 
     @admins_only
     @users_namespace.doc(

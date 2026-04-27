@@ -238,7 +238,12 @@ class TeamPublic(Resource):
     )
     def patch(self, team_id):
         team = Teams.query.filter_by(id=team_id).first_or_404()
-        
+
+        # MISMATCH-GAP-04: SRS chỉ yêu cầu PRE-01 (admin login), không yêu cầu team phải có captain
+        # nhưng code thêm điều kiện: team phải có captain_id mới được đổi visibility
+        if "hidden" in (request.get_json() or {}) and not team.captain_id:
+            return {"success": False, "errors": {"id": "Team must have a captain before changing visibility"}}, 400
+
         # Store before state for audit
         before_state = {
             "name": team.name,
@@ -295,7 +300,8 @@ class TeamPublic(Resource):
         )
 
         clear_team_session(team_id=team.id)
-        clear_standings()
+        # MISMATCH-GAP-01: SRS POST-01 yêu cầu danh sách cập nhật ngay sau khi thay đổi
+        # nhưng clear_standings() bị bỏ qua → cache không bị xóa → danh sách scoreboard không refresh
         clear_challenges()
 
         db.session.close()
